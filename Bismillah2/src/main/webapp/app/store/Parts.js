@@ -4,8 +4,10 @@ Ext.define('BISM.store.Parts', {
     autoLoad: true,
     storeId: 'nmiStore',
     proxy: {
-        type: 'ajax',
-        url: 'data/Parts.json.js',
+    //    type: 'ajax',
+    //    url: 'data/Parts.json.js',
+    type: 'rest',
+        url: 'rest/Parts',
         reader: {
             type: 'json',
             rootProperty: 'parts',
