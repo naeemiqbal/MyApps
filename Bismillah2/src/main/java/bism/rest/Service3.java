@@ -7,6 +7,7 @@ package bism.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 /**
  *
@@ -15,10 +16,10 @@ import javax.ws.rs.Path;
 @Path("/Service3")
 public class Service3 {
 
-    @Path("/bism")
+    @Path("/bism/{param1}")
     @GET
-    public String salaam() {
-        return "Assalamu Alaikum";
+    public String salaam(@PathParam("param1") String pName) {
+        return "Assalamu Alaikum " + pName;
     }
     
     

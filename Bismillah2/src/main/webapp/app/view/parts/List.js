@@ -11,7 +11,7 @@ Ext.define('BISM.view.parts.List', {
     columns: [
         {header: 'Part ID', dataIndex: 'partid'},
         {header: 'Description', dataIndex: 'partdesc', width: 300},
-        {header: 'Production Date', dataIndex: 'productiondate', width: 200}
+        {header: 'Production Date', dataIndex: 'productiondate', width: 200, xtype: 'datecolumn'}
     ],
     tbar: [
         {xtype: 'button', action: 'add', text: 'Add'},

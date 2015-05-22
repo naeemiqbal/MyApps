@@ -6,12 +6,12 @@ Ext.define('BISM.controller.Parts', {
     //refs: [{ref: 'partsPanel', selector: 'panel'}],
     init: function () {
         this.control({' partsedit button[action=save]': {click: this.updatePart}});
-
         this.control({' partslist': {itemdblclick: this.editPart}});
         this.control({' partslist button[action=add]': {click: this.addPart}});
         this.control({' partslist button[action=delete]': {click: this.deletePart}});
         this.control({' partslist button[action=update]': {click: this.updatePart2}});
-
+        this.control({' twobutton[action=opentwo]': {click: this.openTwo}});
+        this.control({'button[action=openone]': {click: this.openOne}});
     },
     addPart: function (button)
     {
@@ -84,8 +84,30 @@ Ext.define('BISM.controller.Parts', {
             store.save();
         }
         else
+        {
             record.set(values);
 
+        }
         win.close();
+    },
+    openTwo: function (btn) {
+        var center = btn.up().up().down('#mainpage'),
+                curr = center.down(),
+                two = Ext.create('BISM.view.misc.Two');
+        center.remove(curr);
+        center.add(two);
+        btn.up().down('#b_partslist').enable();
+        curr.destroy();
+        delete curr; 
+
+    },
+    openOne: function (btn) {
+        var center = btn.up().up().down('#mainpage'),
+                curr = center.down(),
+                //two = Ext.create('nmi', {xtype: 'nmilist'});
+                one = Ext.create('BISM.view.parts.List');
+        center.remove(curr);
+        center.add(one);
+        curr.destroy();
     }
 });
