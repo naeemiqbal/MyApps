@@ -15,7 +15,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/Parts")
@@ -53,7 +52,7 @@ public class PartsController2 {
         return " { success: true, parts : " + gson.toJson(mParts) + " }";
     }
 
-    @Path("/BISM.model.Part-{param1}")
+    //  @Path("/BISM.model.Part-{param1}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addPart(@FormParam("partid") Long pId, @FormParam("partdesc") String pDesc, @FormParam("productiondate") Date pDate) {
@@ -66,22 +65,9 @@ public class PartsController2 {
         LOG.fine(new Date() + " POST Insert\t" + p.toString());
     }
 
-  /*  @POST
-    @Consumes(MediaType.APPLICATION_JSON)    
-    //public void addPart2(@FormParam("partid") Long pId, @FormParam("partdesc") String pDesc, @FormParam("productiondate") Date pDate) {
-    public void addPart2(@FormParam("partid") String pId, @FormParam("partdesc") String pDesc, @FormParam("productiondate") String pDate) {
-        Part p = new Part();
-        p.partid = Long.parseLong(pId);
-        p.partdesc = pDesc;
-      //  p.productiondate = pDate.;
-        mParts.add(p);
-        mMap.put(mParts.indexOf(p), p.partid);
-        LOG.fine(new Date() + " 222POST Insert\t" + p.toString());
-    }*/
-
     @PUT
-    @Path("/BISM.model.Part-{param1}"  )
-    @Consumes(MediaType.APPLICATION_JSON)    
+//    @Path("/BISM.model.Part-{param1}"  )
+    @Consumes(MediaType.APPLICATION_JSON)
     public void updatePart(@FormParam("partid") Long pId, @FormParam("partdesc") String pDesc,
             @FormParam("productiondate") Date pDate, @PathParam("param1") int recId) {
         Part p = new Part();
@@ -93,16 +79,6 @@ public class PartsController2 {
             mParts.add(recId, p);
         }
     }
-/*
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void updatePart2(@FormParam("partid") Long pId, @FormParam("partdesc") String pDesc, @FormParam("productiondate") Date pDate) {
-        Part p = new Part();
-        p.partid = pId;
-        p.partdesc = pDesc;
-        p.productiondate = pDate;
-        LOG.fine(new Date() + " 222PUT update\t" + p.toString());
-    }
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
@@ -113,20 +89,6 @@ public class PartsController2 {
         p.productiondate = pDate;
         mMap.remove(mParts.indexOf(p));
         mParts.remove(p);
-        LOG.fine("Delete ");
-    }*/
-
-    @DELETE
-    @Path("/BISM.model.Part-{param1}")
-   // @Consumes(MediaType.APPLICATION_JSON)    
-    public void deletePart2(@PathParam("param1") String recId) {
-        /*        Part p = new Part();
-         p.partid = pId;
-         p.partdesc = pDesc;
-         p.productiondate = pDate;*/
-        int rec = Integer.parseInt(recId);
-        mMap.remove(rec);
-        mParts.remove(mParts.indexOf(rec));
         LOG.fine("Delete ");
     }
 }
