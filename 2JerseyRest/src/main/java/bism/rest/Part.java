@@ -1,20 +1,25 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package bism.rest;
 
-import java.io.Serializable;
 import java.util.Date;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-//import org.springframework.data.annotation.Id;
 
 @XmlRootElement
-class Part implements Serializable{
-  
-	private static final long serialVersionUID = 1L;
-//	@Id
-	@XmlElement public Long partid;
-	@XmlElement public    String partdesc;
-	@XmlElement public Date productiondate;
+class Part {
+
+    @XmlElement
+    Long partid;
+    @XmlElement
+    String partdesc;
+    @XmlElement
+    Date productiondate;
+    @XmlElement
+    String id;
 
     public void init() {
         Date d = new Date();

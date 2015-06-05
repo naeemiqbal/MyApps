@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Bismillah Sencha 5 App </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext/gpl/5.0.0/build/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all.css" />
+        <script type="text/javascript" src="http://cdn.sencha.com/ext/gpl/5.0.0/build/ext-all.js"></script>
+        <script type="text/javascript" >
+
+            Ext.onReady(function () {
+                Ext.create('Ext.form.Panel', {
+                    renderTo: Ext.getBody(),
+                    items: [
+                        {xtype: 'textfield', name: 'url', fieldLabel: 'URL', value : 'http://localhost:7878/2JerseyRest/rest/Parts' },
+                        {xtype: 'textfield', name: 'method', fieldLabel: 'Method', value : 'DELETE'},
+                        {xtype: 'textarea',  name: 'payload',  fieldLabel: 'Pay Load', value  : '{ partid : 12 }'},
+                        {xtype: 'button', text: 'Submit', handler: function () {
+                                var form = this.up();
+                                //form.submit({url: form.findField('url').getValue(), method: form.getValue('method'), params: form.getValue('payload')});
+                                Ext.Ajax.request( {url: form.down('[name=url]').getValue(), 
+                                    method: form.down('[name=method]').getValue(), 
+                                     headers: { 'Content-Type': 'application/json' },
+                                    params : Ext.JSON.encode(form.getValues()['payload']),
+                                    //params: form.down('[name=payload]').getValue(),                                    
+                                    success: function(resp, p2, p3){
+                                        alert(resp.getResponseText());
+                                    }
+                                });
+                            }}
+                    ]
+                });
+            });
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>

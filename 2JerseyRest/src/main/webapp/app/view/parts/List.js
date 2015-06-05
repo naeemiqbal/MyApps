@@ -9,7 +9,7 @@ Ext.define('BISM.view.parts.List', {
     //store: 'Parts',
     store: Ext.data.StoreManager.lookup('nmiStore'),
     columns: [
-        {header: 'Part ID', dataIndex: 'partid'},
+        {header: 'Part ID', dataIndex: 'partid', width: 150},
         {header: 'Description', dataIndex: 'partdesc', width: 300},
         {header: 'Production Date', dataIndex: 'productiondate', width: 200, xtype: 'datecolumn'}
     ],

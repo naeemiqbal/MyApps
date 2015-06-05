@@ -1,5 +1,6 @@
 package bism.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.core.MediaType;
 
 
 @RestController
@@ -73,6 +77,9 @@ public class PartsController {
         }
     }
 
+    @Autowired
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RequestMapping(method=RequestMethod.DELETE)
     public void deletePart(@RequestParam("partid") Long pId, @RequestParam("partdesc") String pDesc, @RequestParam("productiondate") Date pDate) {
         Part p = new Part();
         p.partid = pId;

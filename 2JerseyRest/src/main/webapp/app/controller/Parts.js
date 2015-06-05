@@ -31,7 +31,6 @@ Ext.define('BISM.controller.Parts', {
             var editw = Ext.create('BISM.view.parts.Edit');
             editw.show();
             editw.down('form').loadRecord(store.getAt(row));
-
         }
         else
             Ext.Msg.show({title: 'Parts Grid', msg: 'Select a record to update!',
@@ -58,10 +57,6 @@ Ext.define('BISM.controller.Parts', {
         else
             Ext.Msg.show({title: 'Parts Grid', msg: 'Select a record to delete!',
                 buttons: Ext.Msg.OK, fn: function (btn) {
-                    if (btn === 'ok') {
-                        debugger;
-                        btn.window.close();
-                    }
                 }
             });
     },
@@ -86,7 +81,6 @@ Ext.define('BISM.controller.Parts', {
         else
         {
             record.set(values);
-
         }
         win.close();
     },
@@ -98,7 +92,7 @@ Ext.define('BISM.controller.Parts', {
         center.add(two);
         btn.up().down('#b_partslist').enable();
         curr.destroy();
-        delete curr; 
+        delete curr;
 
     },
     openOne: function (btn) {

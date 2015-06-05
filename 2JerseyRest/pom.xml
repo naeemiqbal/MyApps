@@ -5,7 +5,7 @@
     <artifactId>Bismillah2</artifactId>
     <version>0.1</version>
     <packaging>war</packaging>
-    <name>Bismillah2</name>
+    <name>2JerseyRest</name>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
