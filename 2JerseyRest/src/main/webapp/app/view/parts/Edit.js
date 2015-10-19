@@ -46,6 +46,4 @@ Ext.define('BISM.view.parts.Edit', {
         ];
         this.callParent(arguments);
     }
-
-
 });

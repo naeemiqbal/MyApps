@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Assalamu Alaikum, Grid standalone</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>        
+        <link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext/gpl/5.0.0/build/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all.css" />
+        <script type="text/javascript" src="http://cdn.sencha.com/ext/gpl/5.0.0/build/ext-all.js"></script>
+        <script type="text/javascript" >
+
+            Ext.onReady(function () {
+                Ext.define('BISM.model.Part', {
+                    extend: 'Ext.data.Model',
+                    requires: 'Ext.data.reader.Json',
+                    fields: ['partid', 'partdesc', {name: 'productiondate', type: 'date'}],
+                    validations: [{type: 'presence', field: 'partid'}]
+                });
+
+                Ext.define('BISM.store.Parts', {
+                    extend: 'Ext.data.Store',
+                    model: 'BISM.model.Part',
+                    autoLoad: true,
+                    storeId: 'nmiStore',
+                    proxy: {
+                        //    type: 'ajax',
+                        //    url: 'data/Parts.json.js',
+                        type: 'rest',
+                        url: '../rest/Parts',
+                        reader: {
+                            type: 'json',
+                            rootProperty: 'parts',
+                            successProperty: 'success'
+                        }
+                    }
+                });
+
+                var store1 = Ext.create('BISM.store.Parts');
+
+                Ext.create('Ext.grid.Panel', {
+                    alias: 'widget.partslist',
+                    store: store1,
+                    //store: 'Parts',
+                    //store: Ext.data.StoreManager.lookup('nmiStore'),
+                    columns: [
+                        {header: 'Part ID', dataIndex: 'partid', width: 150},
+                        {header: 'Description', dataIndex: 'partdesc', width: 300},
+                        {header: 'Production Date', dataIndex: 'productiondate', width: 200, xtype: 'datecolumn'}
+                    ],
+                    tbar: [
+                        {xtype: 'button', action: 'add', text: 'Add'},
+                        {xtype: 'button', action: 'delete', text: 'Delete'},
+                        {xtype: 'button', action: 'update', text: 'Update'},
+                        {xtype: 'button', action: 'get', text: 'Reload'}
+                    ],
+                    renderTo: Ext.get('div1')
+                 ,   controller: 'foo'
+                });
+
+        Ext.create('Ext.app.ViewController', {
+    alias: 'controller.foo',
+    onBarChange: function (barTextField) {
+        // called by 'change' event
+    }
+});
+
+        
+ /*
+Ext.define('MyApp.view.foo.FooController', {
+    extend: 'Ext.app.ViewController',
+    alias: 'controller.foo',
+
+    onBarChange: function (barTextField) {
+        // called by 'change' event
+    }
+});*/
+
+                Ext.define('MyApp.view.foo.FooController', {
+                    extend: 'Ext.app.ViewController',
+                    alias: 'controller.cont1',
+                    init: function () {
+                        this.control({' partsedit button[action=save]': {click: this.savePart}});
+                        this.control({' partslist': {itemdblclick: this.editPart}});
+                        this.control({' partslist button[action=add]': {click: this.newPart}});
+                        this.control({' partslist button[action=delete]': {click: this.deletePart}});
+                        this.control({' partslist button[action=update]': {click: this.editPart}});
+                        this.control({' twobutton[action=opentwo]': {click: this.openTwo}});
+                        this.control({'button[action=openone]': {click: this.openOne}});
+                    },
+                    onBarChange: function (barTextField) {
+                        // called by 'change' event
+                    },
+                    newPart: function (button)
+                    {
+                        var grid = button.up('partslist'),
+                                editw = Ext.create('BISM.view.parts.Edit', {mygrid: grid});
+                        editw.show();
+                    },
+                    editPart: function (button)
+                    {
+                        var grid = button.up('partslist'),
+                                selectedRow = grid.getSelectionModel().getSelection(),
+                                store = grid.store,
+                                row;
+                        if (selectedRow.length > 0)
+                        {
+                            row = store.indexOf(selectedRow[0]);
+                            var editw = Ext.create('BISM.view.parts.Edit');
+                            editw.show();
+                            editw.down('form').loadRecord(store.getAt(row));
+                        }
+                        else
+                            Ext.Msg.show({title: 'Parts Grid', msg: 'Select a record to update!',
+                                buttons: Ext.Msg.OK, fn: function (btn) {
+                                    if (btn === 'ok') {
+                                        this.close();
+                                    }
+                                }
+                            });
+                    },
+                    deletePart: function (button)
+                    {
+                        var grid = button.up('partslist'),
+                                selectedRow = grid.getSelectionModel().getSelection(),
+                                store = grid.store,
+                                row;
+                        if (selectedRow.length > 0)
+                        {
+                            row = store.indexOf(selectedRow[0]);
+                            grid.store.removeAt(row);
+                            store.save();
+                        }
+                        else
+                            Ext.Msg.show({title: 'Parts Grid', msg: 'Select a record to delete!',
+                                buttons: Ext.Msg.OK, fn: function (btn) {
+                                }
+                            });
+                    },
+                    editPart: function (grid, record) {
+                        var editw = Ext.create('BISM.view.parts.Edit', {singleton: true});
+                        editw.show();
+                        editw.down('form').loadRecord(record);
+                    },
+                            savePart: function (button) {
+                                var win = button.up('window'),
+                                        form = win.down('form'),
+                                        record = form.getRecord(),
+                                        values = form.getValues(),
+                                        update = record || false,
+                                        grid = button.up('partslist') || Ext.getCmp('partslist'),
+                                        store;
+
+                                if (grid != undefined)
+                                    store = grid.getStore();
+
+                                if (!update) {
+                                    store.add(values);
+                                }
+                                else
+                                {
+                                    record.set(values);
+                                }
+                                store.save();
+                                win.close();
+                            },
+                    openTwo: function (btn) {
+                        var center = btn.up().up().down('#mainpage'),
+                                curr = center.down(),
+                                two = Ext.create('BISM.view.misc.Two');
+                        center.remove(curr);
+                        center.add(two);
+                        btn.up().down('#b_partslist').enable();
+                        curr.destroy();
+                        delete curr;
+
+                    },
+                    openOne: function (btn) {
+                        var center = btn.up().up().down('#mainpage'),
+                                curr = center.down(),
+                                //two = Ext.create('nmi', {xtype: 'nmilist'});
+                                one = Ext.create('BISM.view.parts.List');
+                        center.remove(curr);
+                        center.add(one);
+                        curr.destroy();
+                    }
+
+
+                });
+
+
+
+            });
+
+
+        </script>
+
+    </head>
+    <body>
+        <div id="div1"></div>
+    </body>
+</html>

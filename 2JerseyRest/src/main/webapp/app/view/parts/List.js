@@ -2,7 +2,6 @@ var nmiS = Ext.create('BISM.store.Parts', {
     storeId: 'nmiStore'
 });
 
-
 Ext.define('BISM.view.parts.List', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.partslist',

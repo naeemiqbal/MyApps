@@ -5,21 +5,21 @@ Ext.define('BISM.controller.Parts', {
     //views: ['List@BISM.view.parts', 'Edit@BISM.view.parts'],
     //refs: [{ref: 'partsPanel', selector: 'panel'}],
     init: function () {
-        this.control({' partsedit button[action=save]': {click: this.updatePart}});
+        this.control({' partsedit button[action=save]': {click: this.savePart}});
         this.control({' partslist': {itemdblclick: this.editPart}});
-        this.control({' partslist button[action=add]': {click: this.addPart}});
+        this.control({' partslist button[action=add]': {click: this.newPart}});
         this.control({' partslist button[action=delete]': {click: this.deletePart}});
-        this.control({' partslist button[action=update]': {click: this.updatePart2}});
+        this.control({' partslist button[action=update]': {click: this.editPart}});
         this.control({' twobutton[action=opentwo]': {click: this.openTwo}});
         this.control({'button[action=openone]': {click: this.openOne}});
     },
-    addPart: function (button)
+    newPart: function (button)
     {
         var grid = button.up('partslist'),
                 editw = Ext.create('BISM.view.parts.Edit', {mygrid: grid});
         editw.show();
     },
-    updatePart2: function (button)
+    editPart: function (button)
     {
         var grid = button.up('partslist'),
                 selectedRow = grid.getSelectionModel().getSelection(),
@@ -36,8 +36,7 @@ Ext.define('BISM.controller.Parts', {
             Ext.Msg.show({title: 'Parts Grid', msg: 'Select a record to update!',
                 buttons: Ext.Msg.OK, fn: function (btn) {
                     if (btn === 'ok') {
-                        debugger;
-                        btn.window.close();
+                        this.close();
                     }
                 }
             });
@@ -65,25 +64,28 @@ Ext.define('BISM.controller.Parts', {
         editw.show();
         editw.down('form').loadRecord(record);
     },
-    updatePart: function (button) {
-        var win = button.up('window'),
-                form = win.down('form'),
-                record = form.getRecord(),
-                values = form.getValues(),
-                update = record || false;
+            savePart: function (button) {
+                var win = button.up('window'),
+                        form = win.down('form'),
+                        record = form.getRecord(),
+                        values = form.getValues(),
+                        update = record || false,
+                        grid =  button.up('partslist') || Ext.getCmp('partslist'),
+                        store;
 
-        if (!update) {
-            var grid = button.up('window').mygrid,
+                if (grid != undefined)
                     store = grid.getStore();
-            store.add(values);
-            store.save();
-        }
-        else
-        {
-            record.set(values);
-        }
-        win.close();
-    },
+
+                if (!update) {
+                    store.add(values);
+                }
+                else
+                {
+                    record.set(values);
+                }
+                store.save();
+                win.close();
+            },
     openTwo: function (btn) {
         var center = btn.up().up().down('#mainpage'),
                 curr = center.down(),
