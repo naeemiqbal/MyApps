@@ -25,7 +25,8 @@ public class TreeService extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             //out.println("{ nmi : 'Naeem Iqbal {0}' }",
-            out.println(" { \"results\" : " + getData()+ "}");
+      //      out.println(" { \"results\" : " + getData()+ "}");
+            out.println( getData());
             out.close();
         }
     }
