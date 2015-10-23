@@ -10,38 +10,57 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <style>        
-            .toc{
-                position: relative;
-                width: 20%;
-                border: 4px solid #8AC007;                
+        <style>
+            body{
+                background: whitesmoke;
+            }
+            section {
+                width: 80%;
+                //height: 200px;
+                margin: auto;
+                padding: 10px;
+            }
+            .toc {
+                width: 15%;
+                float: left;
+                background: #8AC007;
+                padding: 10px;
+            }
+            .mainbody {
+                margin-left: 30%;
+                /*                padding: 10px;
+                                margin: 10px;
+                                border: 3px solid #8AC007;*/
+            }
+            .eastborder{
+                margin-left: 80%;
+                width: "180px",
+                    float: right;
+                align: right;
 
-                /*      top: 30px;      
-                      padding: 10px;
-                      height: 100%;                                */
             }
-            .mainbody{
-                position: relative;
-//                flex-grow: 1;
-                border: 6px solid #8AC007;                
-                width: 70%;                
-                /*                top: 30px;
-                                padding: 10px;
-                                height: 100%;                                
-                                width: 70%;          */      
-            }
-            .mainc {
-                position: static;
-                top: 50px;
-                border: 3px solid #8AC007;
+            .menu {
+                position: fixed;
+                top: 0;
+                //      border: 3px solid #8AC007;
+                width: 100%;
+                height: 30px;
                 text-align: center;
-                margin: 25px;
-                height: 70%;
+                padding: 10px;
+                margin: 10px;
+                border: 10px;
+                //      border: 3px solid #8AC007;
             }
-        </style>        
-    </head>  
+        </style>
+    </head>
     <body>
-        <div class="mainc">        
+        <section>
+            <div class="menu">
+                <p>Resources | Ext JS | Java | About
+                </p>
+            </div>
+        </section>
+        <section>
             <div class="toc">
                 <p>About Me</p>
                 <a href="https://careers.stackoverflow.com/cv/edit/245592?verified=False">Stack Overflow</a><br/>
@@ -49,12 +68,26 @@ and open the template in the editor.
                 <a href=https://www.linkedin.com/in/naeemiqbal>Linked In</a><br/>
                 <a href="https://www.blogger.com/profile/10382896966914424171">Blogger</a><br/>
                 <a href="static/NaeemIqbal.doc">Resume</a><br/>
+
+                <p>Resources</p>
+                <a href="http://www.mkyong.com">Java {Mkyong}</a><br/>
+                <a href="http://vogella.com/">Java {Vogella}</a><br/>
+                <a href="https://alextheedom.wordpress.com/cloud/amazon-free-usage-tier-installing-tomcat-7-on-an-ec2-linux-instance"/>AWS First WAR app</a><br/>
+
+                <p>My Sample ExtJS apps in incubation</p>
+                <a href="../">Grid & Form, Static Data</a><br/>
+                <a href="../2JerseyRest-0.1/">Grid & Form, Jersey Restful</a><br/>
+                <a href="../">Grid & Form, Spring Restful</a><br/>
             </div>
             <div class="mainbody">
-                <p>Welcome to Naeem Iqbal's Homepage</p>
-                <p>Purpose: Create a shopping cart application using Sencha ExtJS and Restful webservices and hosted on the cloud. 
-                <p>Last Updated : 8/22/2015 1210
+                <h1 style="text-align:center">Welcome to Naeem Iqbal's Homepage</h1>
+                <p>Purpose: Create a shopping cart application using Sencha ExtJS and Restful webservices and hosted on the cloud. </p>
+
+                <h6>Last Updated : 8/22/2015 1210</h6>
             </div>
-        </div>        
+            <div class="eastborder">
+                <img src="NaeemIqbal.JPG" width="100%" height="100%" />
+            </div>
+        </section>
     </body>
 </html>
