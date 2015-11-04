@@ -1,0 +1,160 @@
+<html>
+    <head>
+        <title>Naeem Iqbal.com</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <style>        
+            body{
+                background: whitesmoke;
+            }
+            section {
+                width: 80%;
+                height: 200px;
+                margin: auto;
+                padding: 10px;
+            }
+            .menu {
+                position: fixed;
+                top: 0;
+                //      border: 3px solid #8AC007;
+                width: 100%;
+                height: 30px;
+                text-align: center;
+                padding: 10px;
+                margin: 10px;
+                border: 10px;
+            }
+
+            #momenu{
+                position: absolute;
+                background-color: black;
+                margin: 0px;
+                padding: 0px;
+                border:3px solid #8AC007;                
+
+            }
+            ul {
+                list-style-type: none;
+                overflow: hidden;
+                background: #8AC007;   
+            }
+            li {
+                float: left;
+                display: block;
+                width: 160px;
+                margin: 10px;
+                padding: 10px;
+
+            }
+        </style>   
+        <script type="text/javascript">
+     
+            function showMenu() {
+                var itm = arguments[0][0],
+                        pth, li, mitm, menuname, x, y, mx, my, menuitems,
+                        menutext = "<ul><li><a href=\"naeemiqbal.com\">Naeem Iqbal</a></li></ul>",
+                        menu = document.getElementById("momenu");
+                if (itm instanceof MouseEvent ||
+                        itm.__proto__ === MouseEvent)
+                {
+                    pth = itm.path;
+                    for (li in itm.path)
+                    {
+                        if (pth[li] instanceof HTMLLIElement)
+                        {
+                            mitm = pth[li];
+                            menuname = mitm.attributes.menu.value || "NONE";
+                            menuitems = mitm.attributes.menuitems ? mitm.attributes.menuitems.value : null;
+                            if (menuitems == null)
+                            {
+                                return;
+                            }
+                            x = itm.clientX + "px";
+                            y = itm.clientY + "px";
+                            menu.hidden = "";
+                            /*       menu.clientLeft = x;                             menu.clientTop = y;                             menu.left = x;
+                             menu.top = y;                             menu.offsetLeft = x;                             menu.offsetTop = y;*/
+                            menu.style.left = x;
+                            menu.style.top = y;
+                            if ("NONE" == menuname)
+                                menu.innerHTML = menutext;
+                            else
+                                menu.innerHTML = makeMenu(menuitems);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            function makeMenu(pItems)
+            {
+                var    c, itm, ret = "<ul>", itm3,
+                        itm4 = new Array(ABOUT),
+                        itm5 = eval(ABOUT),
+                itm2 = JSON.parse(ABOUT2);
+        
+                itm3 = pItems.split(",");
+                for (c in itm3)
+                {
+                    itm = itm3[c];
+                    if (parseInt(c) % 2 === 1)
+                        ret = ret + itm.replace(/'/g, "") + "</a></li>,</ul>";
+                    else
+                        ret = ret + "<li><a href=" + itm  +">";
+                }
+                ret = ret + "</ul>";
+                return ret;
+            }
+            
+            function jq(){
+                var elem = $(this);
+                alert ("jq worked" + elem.id + arguments.length);
+            }
+        </script>
+
+
+    </head>  
+    <body>
+        <section>
+            <div class="menu" id="menu" >
+                <ul id="menulist" onmouseover="showMenu(arguments);">
+                    <li menu="resources" ><a href="#">Resources</a></li>
+                    <li menu="js">Javascript </li>
+                    <li menu="JAVA"  menuitems="  'http://www.mkyong.com', Java {Mkyong}, 'http://vogella.com/', Java {Vogella}, 'https://alextheedom.wordpress.com/cloud/amazon-free-usage-tier-installing-tomcat-7-on-an-ec2-linux-instance', AWS First WAR app" >Java</li>
+                    <li menu="about"  menuitems="'https://careers.stackoverflow.com/cv/edit/245592?verified=False','Stack Overflow' ,'https://github.com/naeemiqbal','Git Hub','https://www.linkedin.com/in/naeemiqbal','Linked In','https://www.blogger.com/profile/10382896966914424171','Blogger','static/NaeemIqbal.doc','Resume'" >About</li>                    
+                </ul> 
+            </div>    
+            <script>
+         //       $("div.menu").mouseover( function() {alert('nmi mo');});
+               // $("div.menu").mouseover( function() { jq(arguments);});
+                   $("li.menu").mouseover( function() { jq(arguments);});
+            </script>
+        </section>
+        <section>  
+            <div class="toc">
+               <p>Resources</p>
+                <a href="http://www.mkyong.com">Java {Mkyong}</a><br/>                                
+                <a href="http://vogella.com/">Java {Vogella}</a><br/>                                
+                <a href="https://alextheedom.wordpress.com/cloud/amazon-free-usage-tier-installing-tomcat-7-on-an-ec2-linux-instance"/>AWS First WAR app</a><br/>
+
+                <p>My Sample apps in incubation</p>
+                <p>ExtJS </p>
+                <a href="../2JerseyRest-0.1/">Grid & Form, Jersey Restful</a><br/>                                
+                <a href="../">Grid & Form, Static Data[TODO]</a><br/>                                
+                <a href="../">Grid & Form, Spring Restful[TODO]</a><br/>                             
+                <p>Secured Web Pages</p>
+                <a href="../">Tomcat Realm[TODO]</a><br/>                             
+                <a href="../">SSO using SAML, external Identity provider[TODO]</a><br/>                            
+
+            </div>
+            <div class="mainbody">
+                <h1 style="text-align:center">Welcome to Naeem Iqbal's Homepage</h1>
+                <p>Purpose: Create a shopping cart application using Sencha ExtJS and Restful webservices and hosted on the cloud. </p>
+                <h6>Last Updated : 8/22/2015 1210</h6>
+            </div>
+        </section>
+        <div id="momenu"  >hidden MENU</div>
+
+    </body>
+</html>
