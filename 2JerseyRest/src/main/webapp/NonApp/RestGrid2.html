@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <title>Assalamu Alaikum</title>
+        <link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext/gpl/5.0.0/build/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all.css" />
+        <script type="text/javascript" src="http://cdn.sencha.com/ext/gpl/5.0.0/build/ext-all.js"></script>
+        <script type="text/javascript" >
+
+            Ext.require(['Ext.data.*', 'Ext.grid.*']);
+
+            Ext.define('User', {
+                extend: 'Ext.data.Model',
+                fields: ['id', 'name', 'type']
+            });
+
+            Ext.onReady(function () {
+
+                var store = Ext.create('Ext.data.Store', {
+                    autoLoad: true,
+                    autoSync: true,
+                    model: 'User',
+                    proxy: {
+                        type: 'rest',
+                        url: '../rest/animals',
+                        reader: {
+                            type: 'xml',
+                            root: 'animals',
+                            record: 'animal'
+                        },
+                        writer: {
+                            type: 'xml',
+                            rootProperty: 'animals',
+                            root: 'animals',
+                            record: 'animal'
+                            
+                        }
+                    },
+                    listeners: {
+                        write: function (store, operation) {
+                            var record = operation.getRecords()[0],
+                                    name = Ext.String.capitalize(operation.action),
+                                    verb;
+
+                            if (name == 'Destroy') {
+                                verb = 'Destroyed';
+                            } else {
+                                verb = name + 'd';
+                            }
+                            Ext.example.msg(name, Ext.String.format("{0} user: {1}", verb, record.getId()));
+                        }
+                    }
+                });
+
+                var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+                    listeners: {
+                        cancelEdit: function (rowEditing, context) {
+                            // Canceling editing of a locally added, unsaved record: remove it
+                            if (context.record.phantom) {
+                                store.remove(context.record);
+                            }
+                        }
+                    }
+                });
+
+                var grid = Ext.create('Ext.grid.Panel', {
+                    renderTo: document.body,
+                    plugins: [rowEditing],
+                    width: 500,
+                    height: 330,
+                    frame: true,
+                    title: 'Aminals',
+                    store: store,
+                    iconCls: 'icon-user',
+                    columns: [
+                        {
+                            text: 'ID',
+                            width: 50,
+                            sortable: true,
+                            dataIndex: 'id',
+                            renderer: function (v, meta, rec) {
+                                return rec.phantom ? '' : v;
+                            }
+                        }, {
+                            header: 'Name',
+                            width: 120,
+                            sortable: true,
+                            dataIndex: 'name',
+                            field: {
+                                xtype: 'textfield'
+                            }
+                        }, {
+                            text: 'Type',
+                            width: 120,
+                            sortable: true,
+                            dataIndex: 'type',
+                            field: {
+                                xtype: 'textfield'
+                            }
+                        }],
+                    dockedItems: [{
+                            xtype: 'toolbar',
+                            items: [{
+                                    text: 'Add',
+                                    iconCls: 'icon-add',
+                                    handler: function () {
+                                        // empty record
+                                        store.insert(0, new User());
+                                        rowEditing.startEdit(0, 0);
+                                    }
+                                }, '-', {
+                                    itemId: 'delete',
+                                    text: 'Delete',
+                                    iconCls: 'icon-delete',
+                                    disabled: true,
+                                    handler: function () {
+                                        var selection = grid.getView().getSelectionModel().getSelection()[0];
+                                        if (selection) {
+                                            store.remove(selection);
+                                        }
+                                    }
+                                }]
+                        }]
+                });
+                grid.getSelectionModel().on('selectionchange', function (selModel, selections) {
+                    grid.down('#delete').setDisabled(selections.length === 0);
+                });
+            });
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

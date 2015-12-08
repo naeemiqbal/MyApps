@@ -27,15 +27,15 @@ and open the template in the editor.
                     autoLoad: true,
                     storeId: 'nmiStore',
                     proxy: {
-                        //    type: 'ajax',
-                        //    url: 'data/Parts.json.js',
-                        type: 'rest',
+                            type: 'ajax',
+                            url: '../data/Parts.json',
+                        /*type: 'rest',
                         url: '../rest/Parts',
                         reader: {
                             type: 'json',
                             rootProperty: 'parts',
                             successProperty: 'success'
-                        }
+                        }*/
                     }
                 });
 
@@ -61,7 +61,7 @@ and open the template in the editor.
                  ,   controller: 'foo'
                 });
 
-        Ext.create('Ext.app.ViewController', {
+        Ext.create('Ext.app.ViewController', { 
     alias: 'controller.foo',
     onBarChange: function (barTextField) {
         // called by 'change' event
@@ -69,7 +69,6 @@ and open the template in the editor.
 });
 
         
- /*
 Ext.define('MyApp.view.foo.FooController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.foo',
@@ -77,7 +76,7 @@ Ext.define('MyApp.view.foo.FooController', {
     onBarChange: function (barTextField) {
         // called by 'change' event
     }
-});*/
+});
 
                 Ext.define('MyApp.view.foo.FooController', {
                     extend: 'Ext.app.ViewController',

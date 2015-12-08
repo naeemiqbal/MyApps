@@ -1,0 +1,6 @@
+{   "success": "true",
+    "results":[
+        {            "id":"1",            "name":"Naeem",            "location":"Greenville SC"        },
+        {            "id":"2",            "name":"Ahmad ",            "location":"Calgary AB"        },
+        {            "id":"3",            "name":"Aamer ",            "location":"Musqat Oman"        }    ]
+}

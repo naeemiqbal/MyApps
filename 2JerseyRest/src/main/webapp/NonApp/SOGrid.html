@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>Assalamu Alaikum</title>
+        <link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext/gpl/5.0.0/build/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all.css" />
+        <script type="text/javascript" src="http://cdn.sencha.com/ext/gpl/5.0.0/build/ext-all.js"></script>
+        <script type="text/javascript" >
+            Ext.onReady(function () {
+                Ext.define('NMI.model.User', {
+                    extend: 'Ext.data.Model',
+                    fields: ['id', 'name', 'location'],
+                    proxy: {
+                        type: 'ajax',
+                        url: '../data/Users.json',
+                        reader: {
+                            type: 'json',
+                            rootProperty: 'results'
+                        }
+                    }                    
+                });
+
+                Ext.define('NMI.store.Users', {
+                    extend: 'Ext.data.Store',
+                    requires: ['NMI.model.User'],
+//model: Ext.ModelManager.getModel('NMI.model.User'),
+                    model: 'NMI.model.User',
+                    storeId: 'nmiUsers',
+                    fields: ['id', 'name', 'location'],
+                    autoLoad: true
+                });
+
+                var nmiS = Ext.create('NMI.store.Users', {
+                    storeId: 'nmiStore'
+                });
+//nmiS.load();
+                var Update = function Update() {
+                    var rec = nmiS.getAt(0), arr,
+                            grid = Ext.getCmp('MyGrid');
+                    rec.set("name", "Just Updated @ " + new Date());
+                    rec.commit();
+                    //rec.commit(false, ['name']);
+                    //   nmiS.reload();
+
+/*                    nmiS.commitChanges();
+                    //myGrid.reconfigure(nmiS);
+                    grid.bindStore(nmiS);
+                    //myGrid.getView().refresh();*/
+                };
+                function Delete() {
+                    nmiS.removeAt(0);
+                }
+                ;
+
+                var myGrid = Ext.create('Ext.grid.Panel', {
+                    title: 'Test Grid',
+                    id: 'MyGrid',
+                    itemId: 'MyGrid',
+                    name: 'MyGrid',
+                    store: Ext.data.StoreManager.lookup('nmiStore'),
+                    columns: [
+                        {text: 'Name', dataIndex: 'name', flex: 5},
+                        {text: 'Id', dataIndex: 'id', flex: 1},
+                        {text: 'Location', dataIndex: 'location', flex: 3}
+                    ],
+                    height: 300,
+                    width: 750,
+                    renderTo: Ext.getBody(),
+                    fbar: [{xtype: 'button', name: 'add', text: "Add", handler: Add},
+                        {xtype: 'button', name: 'update', text: "Update", handler: Update},
+                        {xtype: 'button', name: 'delete', text: "Delete", handler: Delete},
+                    ]
+                });
+
+                function Add() {
+                    var c = nmiS.getCount(), nam = new Date();
+                    nmiS.loadData([{"id": c + 1, "name": nam, "location": "Memory"}], true);
+//                    myGrid.
+                }
+
+
+            });
+
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
